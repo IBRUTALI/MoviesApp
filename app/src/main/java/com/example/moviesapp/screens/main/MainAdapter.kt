@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
+import com.example.moviesapp.SaveShared
 import com.example.moviesapp.models.MovieItem
 import kotlinx.android.synthetic.main.item_movie.view.*
+import kotlin.properties.Delegates
 
 class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
 
     private var moviesList = emptyList<MovieItem>()
+    private var valueBoolean by Delegates.notNull<Boolean>()
+
 
     class MainViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
@@ -25,6 +29,7 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        valueBoolean = SaveShared.getFavorite(MAIN, moviesList[position].id)
         holder.itemView.apply {
             title.text = moviesList[position].title
             date.text = moviesList[position].year
@@ -32,6 +37,12 @@ class MainAdapter : RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
                 moviesList[position].imDbRating
             } else {
                 "0.0"
+            }
+
+            if(valueBoolean) {
+                img_favorite.setImageResource(R.drawable.ic_baseline_star_rate_24)
+            } else {
+                img_favorite.setImageResource(R.drawable.ic_baseline_star_outline_24)
             }
 
             Glide.with(MAIN)

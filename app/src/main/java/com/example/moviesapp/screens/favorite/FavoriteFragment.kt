@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
 import com.example.moviesapp.databinding.FragmentFavoriteBinding
@@ -32,7 +33,7 @@ class FavoriteFragment : Fragment() {
             rvFavorite.adapter = adapter
             rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
         }
-        viewModel.getAllMovies().observe(this, Observer {list->
+        viewModel.getAllMovies().observe(viewLifecycleOwner, Observer {list->
             adapter.setList(list.asReversed())
         })
     }

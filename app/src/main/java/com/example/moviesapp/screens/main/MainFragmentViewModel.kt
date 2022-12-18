@@ -11,6 +11,8 @@ import com.example.moviesapp.data.room.MoviesRoomDatabase
 import com.example.moviesapp.data.room.repository.MoviesRepositoryImpl
 import retrofit2.Response
 import com.example.moviesapp.models.Movie
+import com.example.moviesapp.models.MovieItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
@@ -28,5 +30,21 @@ class MainFragmentViewModel(application: Application): AndroidViewModel(applicat
     fun initDatabase() {
         val daoMovie = MoviesRoomDatabase.getInstance(context).getMovieDao()
         REPO_IMPL = MoviesRepositoryImpl(daoMovie)
+    }
+
+    fun insertMovie(movieItem: MovieItem, onSuccess:() -> Unit) {
+        viewModelScope.launch (Dispatchers.IO) {
+            REPO_IMPL.insertMovie(movieItem) {
+                onSuccess()
+            }
+        }
+    }
+
+    fun deleteMovie(movieItem: MovieItem, onSuccess:() -> Unit) {
+        viewModelScope.launch (Dispatchers.IO) {
+            REPO_IMPL.deleteMovie(movieItem) {
+                onSuccess()
+            }
+        }
     }
 }

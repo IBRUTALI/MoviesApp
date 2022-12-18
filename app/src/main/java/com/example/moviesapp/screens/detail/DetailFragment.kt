@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
+import com.example.moviesapp.SaveShared
 import com.example.moviesapp.databinding.FragmentDetailBinding
 import com.example.moviesapp.databinding.FragmentFavoriteBinding
 import com.example.moviesapp.models.MovieItem
@@ -29,7 +30,15 @@ class DetailFragment : Fragment() {
     }
 
     private fun init() {
+        val valueBoolean = SaveShared.getFavorite(MAIN, currentMovie.id)
         val viewModel = ViewModelProvider(this)[DetailFragmentViewModel::class.java]
+
+        if(isFavorite != valueBoolean) {
+            binding.favoriteDetail.setImageResource(R.drawable.ic_baseline_star_rate_24)
+        } else {
+            binding.favoriteDetail.setImageResource(R.drawable.ic_baseline_star_outline_24)
+        }
+
         viewModel.getMovieTrailer(currentMovie.id)
         viewModel.movieTrailer.observe(viewLifecycleOwner, Observer { movie ->
             binding.descriptionDetail.text = movie.body()?.videoDescription ?: "No description"
@@ -47,12 +56,14 @@ class DetailFragment : Fragment() {
                 "0.0"
             }
             favoriteDetail.setOnClickListener {
-                isFavorite = if (!isFavorite) {
+                isFavorite = if (isFavorite == valueBoolean) {
                     favoriteDetail.setImageResource(R.drawable.ic_baseline_star_rate_24)
+                    SaveShared.setFavorite(MAIN, currentMovie.id, true)
                     viewModel.insertMovie(currentMovie){}
                     true
                 } else {
                     favoriteDetail.setImageResource(R.drawable.ic_baseline_star_outline_24)
+                    SaveShared.setFavorite(MAIN, currentMovie.id, false)
                     viewModel.deleteMovie(currentMovie){}
                     false
                 }
