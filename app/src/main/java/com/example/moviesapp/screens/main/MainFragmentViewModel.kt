@@ -5,10 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.moviesapp.MAIN
 import com.example.moviesapp.REPO_IMPL
 import com.example.moviesapp.data.retrofit.RetrofitRepository
 import com.example.moviesapp.data.room.MoviesRoomDatabase
 import com.example.moviesapp.data.room.repository.MoviesRepositoryImpl
+import com.example.moviesapp.data.sharedprefs.favorite.SharedPreferencesFavorite
 import retrofit2.Response
 import com.example.moviesapp.models.Movie
 import com.example.moviesapp.models.MovieItem
@@ -20,6 +22,7 @@ class MainFragmentViewModel(application: Application): AndroidViewModel(applicat
     private var repository = RetrofitRepository()
     val myMovie: MutableLiveData<Response<Movie>> = MutableLiveData()
     private val context = application
+    private val sharedPreferences = SharedPreferencesFavorite(context)
 
     fun getPopularMovies() {
         viewModelScope.launch {

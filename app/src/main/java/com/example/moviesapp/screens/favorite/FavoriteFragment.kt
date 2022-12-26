@@ -33,7 +33,7 @@ class FavoriteFragment : Fragment() {
             rvFavorite.adapter = adapter
             rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
         }
-        viewModel.getAllMovies().observe(viewLifecycleOwner, Observer {list->
+        viewModel.getAllMovies().observe(viewLifecycleOwner, {list->
             adapter.setList(list.asReversed())
         })
     }

@@ -20,5 +20,5 @@ class RetrofitRepository {
 
     suspend fun getMovieTrailer(movieId: String): Response<MovieTrailer> {
         return RetrofitInstance.api.getMovieTrailer(movieId)
-    }
+   }
 }

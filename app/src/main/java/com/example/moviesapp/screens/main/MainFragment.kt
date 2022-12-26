@@ -8,10 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
-import com.example.moviesapp.SaveShared
 import com.example.moviesapp.databinding.FragmentMainBinding
 import com.example.moviesapp.models.MovieItem
 

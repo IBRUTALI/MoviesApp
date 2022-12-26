@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/mainFragment"
@@ -32,4 +32,13 @@
         android:name="com.example.moviesapp.screens.detail.DetailFragment"
         android:label="Описание"
         tools:layout="@layout/fragment_detail" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.example.moviesapp.screens.splash.SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
