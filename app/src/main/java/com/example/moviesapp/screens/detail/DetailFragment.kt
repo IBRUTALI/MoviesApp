@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -18,13 +19,16 @@ import com.example.moviesapp.R
 import com.example.moviesapp.data.sharedprefs.favorite.SharedPreferencesFavorite
 import com.example.moviesapp.databinding.FragmentDetailBinding
 import com.example.moviesapp.models.MovieItem
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.item_movie.view.*
 
+@AndroidEntryPoint
 class DetailFragment : Fragment() {
     private var mBinding: FragmentDetailBinding? = null
     private val binding get() = mBinding!!
     private lateinit var currentMovie: MovieItem
     private var isFavorite = false
+    private val viewModel: DetailFragmentViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,7 +36,6 @@ class DetailFragment : Fragment() {
     }
 
     private fun init() {
-        val viewModel = ViewModelProvider(this)[DetailFragmentViewModel::class.java]
         val valueBoolean = viewModel.getFavorite(currentMovie.id)
 
         if(isFavorite != valueBoolean) {

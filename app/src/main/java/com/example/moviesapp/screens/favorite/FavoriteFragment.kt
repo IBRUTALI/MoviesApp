@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
+import com.example.moviesapp.Singletons
 import com.example.moviesapp.databinding.FragmentFavoriteBinding
 import com.example.moviesapp.databinding.FragmentMainBinding
 import com.example.moviesapp.models.MovieItem
 import com.example.moviesapp.screens.main.MainAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_favorite.*
 
 class FavoriteFragment : Fragment() {
@@ -31,7 +33,7 @@ class FavoriteFragment : Fragment() {
         val viewModel = ViewModelProvider(this)[FavoriteFragmentViewModel::class.java]
         binding.apply {
             rvFavorite.adapter = adapter
-            rvFavorite.layoutManager = GridLayoutManager(requireContext(), 2)
+            rvFavorite.layoutManager = GridLayoutManager(requireContext(), Singletons.getGrid())
         }
         viewModel.getAllMovies().observe(viewLifecycleOwner, {list->
             adapter.setList(list.asReversed())

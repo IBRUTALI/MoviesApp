@@ -14,15 +14,20 @@ import com.example.moviesapp.data.sharedprefs.favorite.SharedPreferencesFavorite
 import retrofit2.Response
 import com.example.moviesapp.models.Movie
 import com.example.moviesapp.models.MovieItem
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainFragmentViewModel(application: Application): AndroidViewModel(application) {
-    private var repository = RetrofitRepository()
+@HiltViewModel
+class MainFragmentViewModel @Inject constructor(
+   application: Application,
+   private val repository: RetrofitRepository
+): AndroidViewModel(application) {
     val myMovie: MutableLiveData<Response<Movie>> = MutableLiveData()
     private val context = application
-    private val sharedPreferences = SharedPreferencesFavorite(context)
 
     fun getPopularMovies() {
         viewModelScope.launch {

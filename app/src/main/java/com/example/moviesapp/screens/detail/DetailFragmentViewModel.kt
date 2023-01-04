@@ -10,12 +10,16 @@ import com.example.moviesapp.data.room.repository.MoviesRepositoryImpl
 import com.example.moviesapp.data.sharedprefs.favorite.SharedPreferencesFavorite
 import com.example.moviesapp.models.MovieItem
 import com.example.moviesapp.models.MovieTrailer
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class DetailFragmentViewModel : ViewModel() {
-    private val repository = RetrofitRepository()
+@HiltViewModel
+class DetailFragmentViewModel @Inject constructor(
+    private val repository: RetrofitRepository
+) : ViewModel() {
     private val sharedPreferences = SharedPreferencesFavorite(MAIN)
     val movieTrailer: MutableLiveData<Response<MovieTrailer>> = MutableLiveData()
 

@@ -1,23 +1,32 @@
 package com.example.moviesapp.screens.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesapp.MAIN
 import com.example.moviesapp.R
+import com.example.moviesapp.Singletons
+import com.example.moviesapp.data.sharedprefs.settings.AppSettings
 import com.example.moviesapp.databinding.FragmentMainBinding
 import com.example.moviesapp.models.MovieItem
+import com.example.moviesapp.screens.settings.SettingsFragmentViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private var mBinding: FragmentMainBinding? = null
     private val binding get() = mBinding!!
     private val adapter by lazy { MainAdapter() }
+    private val viewModel: MainFragmentViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -26,10 +35,9 @@ class MainFragment : Fragment() {
     }
 
     private fun init() {
-        val viewModel = ViewModelProvider(this)[MainFragmentViewModel::class.java]
         binding.apply {
             rvMain.adapter = adapter
-            rvMain.layoutManager = GridLayoutManager(requireContext(), 2)
+            rvMain.layoutManager = GridLayoutManager(requireContext(), Singletons.getGrid())
         }
         viewModel.getPopularMovies()
         viewModel.initDatabase()
@@ -62,7 +70,10 @@ class MainFragment : Fragment() {
                         MAIN.navController.navigate(R.id.action_mainFragment_to_favoriteFragment)
                         true
                     }
-                    else -> false
+                    R.id.item_settings -> {
+                        MAIN.navController.navigate(R.id.action_mainFragment_to_settingsFragment)
+                        true
+                    }else -> false
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
